@@ -1,2 +1,2 @@
-require 'omniauth-salesforce/version'
+require 'omniauth_salesforce/version'
 require 'omniauth/strategies/salesforce'
