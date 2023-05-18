@@ -1,49 +1,62 @@
-# omniauth-salesforce
+# OmniAuth Salesforce Strategy
 
-[OmniAuth](https://github.com/intridea/omniauth) Strategy for [salesforce.com](salesforce.com).
+Strategy to authenticate with Gong via OAuth2 in OmniAuth.
 
-Note: This is a fork of the [original](https://github.com/richardvanhook/omniauth-salesforce) project and is now the main repository for the omniauth-salesforce gem.
+Salesforce OAuth docs - <https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm>
 
-## See it in action
+Note: This is a fork of an [abandoned fork](https://github.com/realdoug/omniauth-salesforce) of the [original](https://github.com/richardvanhook/omniauth-salesforce) project.
 
-[http://omniauth-salesforce-example.herokuapp.com](http://omniauth-salesforce-example.herokuapp.com)
+## Installation
 
-[Source for above app](https://github.com/richardvanhook/omniauth-salesforce-example)
-
-## Basic Usage
+Add to your Gemfile:
 
 ```ruby
-require "sinatra"
-require "omniauth"
-require "omniauth-salesforce"
+gem 'omniauth-salesforce'
+```
 
-class MyApplication < Sinatra::Base
-  use Rack::Session
-  use OmniAuth::Builder do
-    provider :salesforce, ENV['SALESFORCE_KEY'], ENV['SALESFORCE_SECRET']
-  end
+Then `bundle install`.
+
+## Salesforce API Setup
+
+1. Follow the instructions in
+   <https://help.gong.io/hc/en-us/articles/360056677792-Create-an-app-for-Gong>
+   to create a "Connected app"
+
+## Usage
+
+Here's an example for adding the middleware to a Rails app in `config/initializers/salesforce.rb`:
+
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :salesforce,
+    Rails.application.credentials.dig(:salesforce, :key),
+    Rails.application.credentials.dig(:salesforce, :secret)
 end
 ```
 
-## Including other sites
+You can now access the OmniAuth Salesforce URL: /auth/salesforce
+
+NOTE: While developing your application, if you change the scope in the initializer you will need to restart your app server.
+
+## Configuration
+
+You can configure several options, which you pass in to the provider method via a hash:
+
+- `client_options`: A hash of options to pass to the OAuth client
+
+Here's an example of a possible configuration
 
 ```ruby
-use OmniAuth::Builder do
-    provider :salesforce, 
-             ENV['SALESFORCE_KEY'], 
-             ENV['SALESFORCE_SECRET']
-    provider OmniAuth::Strategies::SalesforceSandbox, 
-             ENV['SALESFORCE_SANDBOX_KEY'], 
-             ENV['SALESFORCE_SANDBOX_SECRET']
-    provider OmniAuth::Strategies::SalesforcePreRelease, 
-             ENV['SALESFORCE_PRERELEASE_KEY'], 
-             ENV['SALESFORCE_PRERELEASE_SECRET']
-    provider OmniAuth::Strategies::DatabaseDotCom, 
-             ENV['DATABASE_DOT_COM_KEY'], 
-             ENV['DATABASE_DOT_COM_SECRET']
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :salesforce,
+    Rails.application.credentials.dig(:gong, :key),
+    Rails.application.credentials.dig(:gong, :secret),
+    client_options: {
+      auth_scheme: :request_body
+    }
 end
 ```
 
-## Resources
+## License
 
-* [Article: Digging Deeper into OAuth 2.0 on Force.com](http://wiki.developerforce.com/index.php/Digging_Deeper_into_OAuth_2.0_on_Force.com)
+See [LICENSE](LICENSE.md)
