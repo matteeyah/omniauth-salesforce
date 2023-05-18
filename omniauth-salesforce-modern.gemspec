@@ -7,9 +7,8 @@ Gem::Specification.new do |gem|
   gem.summary       = 'OmniAuth strategy for salesforce.com.'
   gem.homepage      = 'https://github.com/matteeyah/omniauth-salesforce'
 
-  gem.executables   = `git ls-files -- bin/*`.split('\n').map { |f| File.basename(f) }
-  gem.files         = `git ls-files`.split('\n')
-  gem.name          = 'omniauth-salesforce'
+  gem.files         = `git ls-files`.split("\n")
+  gem.name          = 'omniauth-salesforce-modern'
   gem.require_paths = ['lib']
   gem.version       = OmniAuth::Salesforce::VERSION
   gem.license       = 'MIT'
