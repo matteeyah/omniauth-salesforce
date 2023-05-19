@@ -11,7 +11,7 @@ Note: This is a fork of an [abandoned fork](https://github.com/realdoug/omniauth
 Add to your Gemfile:
 
 ```ruby
-gem 'omniauth-salesforce-modern'
+gem 'omniauth-salesforce-modern', require: 'omniauth-salesforce'
 ```
 
 Then `bundle install`.
