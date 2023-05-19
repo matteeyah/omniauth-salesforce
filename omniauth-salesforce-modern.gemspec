@@ -1,4 +1,4 @@
-require File.expand_path('lib/omniauth_salesforce/version', __dir__)
+require File.expand_path('lib/omniauth/salesforce/version', __dir__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ['Richard Vanhook']
